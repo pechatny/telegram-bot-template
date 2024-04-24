@@ -1,27 +1,27 @@
-package com.pechatny.congratulation.organazer.bot;
+package ru.pechatny.bot;
 
 import jakarta.annotation.PostConstruct;
 import org.springframework.context.annotation.Configuration;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+import org.telegram.telegrambots.meta.generics.LongPollingBot;
 import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 
 @Configuration
 public class BotConfiguration {
-    private final BotProperties props;
+    private final LongPollingBot bot;
 
-    public BotConfiguration(BotProperties props) {
-        this.props = props;
+    public BotConfiguration(LongPollingBot bot) {
+        this.bot = bot;
     }
 
     @PostConstruct
-    public void registerBot() {
+    public void registerBot() throws BotConfigurationException {
         try {
-            var converterBot = new Bot(props);
             var botsApi = new TelegramBotsApi(DefaultBotSession.class);
-            botsApi.registerBot(converterBot);
+            botsApi.registerBot(bot);
         } catch (TelegramApiException e) {
-            throw new RuntimeException(e);
+            throw new BotConfigurationException(e);
         }
     }
 }

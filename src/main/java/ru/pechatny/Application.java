@@ -1,7 +1,15 @@
-package org.example;
+package ru.pechatny;
 
-public class Main {
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
+
+@EntityScan
+@SpringBootApplication
+@ConfigurationPropertiesScan
+public class Application {
     public static void main(String[] args) {
-        System.out.println("Hello world!");
+        SpringApplication.run(Application.class, args);
     }
 }
