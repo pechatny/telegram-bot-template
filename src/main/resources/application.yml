@@ -1,15 +1,22 @@
-bot.name=CongratulationOrganizerBot
-bot.token=${secret.bot.token}
-
-spring.datasource.url=jdbc:h2:mem:testdb
-spring.datasource.driverClassName=org.h2.Driver
-spring.datasource.username=sa
-spring.datasource.password=1234
-
-spring.jpa.show-sql=true
-spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.H2Dialect
-spring.jpa.hibernate.ddl-auto=update
-
-spring.h2.console.enabled=true
-# default path: h2-console
-#spring.h2.console.path=/h2-ui
+spring:
+  application.name: telegram-template-bot
+  profiles.active: ${ENVIRONMENT_PROFILE_NAME:dev}
+  cloud:
+    vault:
+      host: 192.168.88.248
+      port: 8200
+      scheme: http
+      token: ${VAULT_TOKEN}
+  config.import: vault://
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,prometheus
+  prometheus:
+    metrics:
+      export:
+        enabled: true
+bot:
+  name: TelegramTemplateBot
+  token: ${bot.token}
